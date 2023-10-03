@@ -23,8 +23,3 @@ RUN apt-get -y update
 
 # Dependencies
 RUN bash ./install-all-dependencies.bash
-
-
-################## ENTRY ######################
-
-CMD bash mystic_cow.bash

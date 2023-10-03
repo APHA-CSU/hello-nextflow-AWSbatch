@@ -1,1 +1,2 @@
-apt-get install cowsay fortune -y
+apt-get install -y cowsay \
+	fortune

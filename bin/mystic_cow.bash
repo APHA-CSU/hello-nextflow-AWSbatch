@@ -1,1 +1,1 @@
-fortune | cowsay > mystic_cow.bash
+/usr/games/fortune | /usr/games/cowsay > mystic_cow.txt
