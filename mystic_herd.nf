@@ -36,7 +36,7 @@ process cow {
 
 workflow {
 	Channel
-	    .fromList( (1..5).toList() )
+	    .fromList( (1..params.herd_size).toList() )
 	    .set {cowNum}
 
 	mystic(cowNum)
