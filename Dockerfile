@@ -22,4 +22,4 @@ RUN chmod +x ./bin/*
 RUN apt-get -y update
 
 # Dependencies
-RUN bash ./install-all-dependencies.bash
+RUN bash ./install-batch-dependencies.bash
