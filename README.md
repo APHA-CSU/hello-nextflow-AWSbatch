@@ -2,7 +2,7 @@
 
 A test/example of using Nextflow's AWSbatch executor to deploy jobs to AWS batch.
 
-Designed to run in CSU's offline SCE AWS account.
+Designed to run in CSU's offline SCE AWS account and can be run from any EC2 instance within this VPC.
 
 An extremely simple Nextflow pipeline creates a herd of "mystic cows". Output of `fortune` piped into `cowsay` is redirected to files and saved as `mystic_cow_x.txt`, where `x` is the cow number. 
 
@@ -19,6 +19,12 @@ An extremely simple Nextflow pipeline creates a herd of "mystic cows". Output of
 ```
 
 The files are pushed to s3, `s3://s3-csu-offline-003/results/mystic_herd/`
+
+## Install
+
+The only dependency required is Nextflow.
+
+`bash install-nextflow.bash`
 
 ## Run
 
