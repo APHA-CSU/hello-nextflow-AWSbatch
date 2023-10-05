@@ -30,7 +30,7 @@ process cow {
 		path("mystic_cow_${cow}.txt")
 
 	"""
-	cow.bash cow_num mystic.txt
+	cow.bash $cow mystic.txt
 	"""
 }
 
