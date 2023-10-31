@@ -4,6 +4,15 @@
 
 A custom AMI is required for compute instances in batch because the default AMIs do not have the AWS CLI installed. Nextflow uses the AWS CLI to stage working files. It is also recommended to attach a larger EBS storage volume to the image as the default (30GiB) is unlikely to be enough for real-world applications. In this test however, I just use 30GiB.
 
+### AWS CloudShell
+
+In the “offline account” I’ve been unable to connect via SSH from my DEFRA laptop. Also for the amazon based AMIs I’m unable to make EC2 instance connect work. So to connect I am using SSH from AWS CloudShell in the browser/console. Before configuring our EC2 instance we need to know the public IP address of our AWS CloudShell session. 
+
+1. Search for the AWS CloudShell service in the console and click to open a new session.
+2. Get the public IP by using the following command:
+    - `curl -s checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'`
+3. Make a copy of the output of this command, i.e. the public IP of the the CloudShell session.
+
 ### Create a new EC2 template instance
 
 1.	Select “Launch Instances” at the top right of the EC2 dashboard.
@@ -11,20 +20,18 @@ A custom AMI is required for compute instances in batch because the default AMIs
 3.	Select the correct AMI base template image. For AWS batch I believe this must be an Amazon Linux image. I used “Amazon ECS-Optimized Amazon Linux 2 (AL2) x86_64 AMI”. I think this is recommended by Nextflow.
 4.	Select the instance type. From testing I think at least 8GiB of memory is required for using miniconda (see later steps), I chose m5.large.
 5.	Create a key-pair (required to connect to the instance). Download and save the private key somewhere safe. Give it a name, e.g. “process-template-keypair”
-6.	Create a security group and allow SSH traffic from “Anywhere” (0.0.0.0/0).
+6.	Create a security group and allow inbound SSH traffic from “Custom” and set the IP address to the public IP of the CloudShell session. AWS seems to want to append a "/32" to the end, not sure why.
 7.	Click “Launch instance”
 
 ### Connect to the template instance
 
-In the “offline account” I’ve been unable to connect via SSH from my DEFRA laptop. Also for the amazon based AMIs I’m unable to make EC2 instance connect work. So to connect I am using SSH from AWS CloudShell in the browser/console.
-1.	Search for the AWS CloudShell service in the console and click to open a new session.
-2.	Create the SSH private key file from the key-pair created when creating the process template:
+1.	In the same CloudSehll session, create the SSH private key file from the key-pair created when creating the process template:
     - `touch  process-template-keypair.pem`
     - copy the contents of the private key file from your DEFRA laptop into this new file created in the CloudShell session. 
     - Save the file
     - `chmod 400 process-template-keypair.pem`
     
-3.	Connect to the instance: 
+3.	Connect to the instance, (the command for this can be retreived from right clicking on the running instance, clicking on "connect" and then navigating to the SHH tab): 
 
 `ssh -i "process-template-keypair.pem" ec2-user@ec2-3-253-129-246.eu-west-1.compute.amazonaws.com`
 
